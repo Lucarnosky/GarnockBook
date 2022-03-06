@@ -9,16 +9,16 @@ const Item = ({ post }) => (
       <Image
         style={styles.img}
         source={{
-          uri: post.postImage,
+          uri: post.url,
         }}
       />
     </View>
     <View style={styles.postContent}>
       <Text>
-        {post.first_name} {post.last_name}
+        {post.firstName ? post.firstName: "John"} {post.lastName ? post.lastName: "Doe"}
       </Text>
-      <Text>{post.insertedOn} </Text>
-      <Text>{post.postContent}</Text>
+      <Text>{post.insertedOn? post.insertedOn : "unkown"} </Text>
+      <Text>{post.title}</Text>
       <View style={styles.postFooter}>
         <IconFA
           name="heart"
@@ -27,7 +27,7 @@ const Item = ({ post }) => (
           borderWidth="1"
           borderColor="black"
         />
-        <Text style={styles.likes}>{post.likesQty}</Text>
+        <Text style={styles.likes}>{post.likesQty > 0 ? post.likesQty : 0}</Text>
         <IconFA
           name="wechat"
           size={16}
@@ -35,29 +35,63 @@ const Item = ({ post }) => (
           borderWidth="1"
           borderColor="black"
         />
-        <Text style={styles.likes}>{post.likesQty}</Text>
+        <Text style={styles.likes}>{post.likesQty > 0 ? post.likesQty : 0}</Text>
       </View>
     </View>
   </View>
 );
 const addPost = () => {
-    alert("Press!");
+  alert("Press!");
 };
+
 export class HomeScreen extends React.Component {
-    
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      posts: [],
+      page: 1,
+    };
+  }
+
+  getPost = async () => {
+    var apiUrl =
+      "https://jsonplaceholder.typicode.com/photos?_limit=10&_page=" +
+      this.state.page;
+    fetch(apiUrl)
+      .then((response) => response.json())
+      .then((jsonResponse) => {
+        this.setState({
+          posts: this.state.posts.concat(jsonResponse),
+        });
+      });
+  };
+
+  componentDidMount() {
+    this.getPost();
+  }
+
+  flipPage = () => {
+    this.setState({page: this.state.page + 1, },this.getPost);
+  };
+
   render() {
-    const postData = require("../POSTDATA.json");
+    //const postData = require("../POSTDATA.json");
     const renderItem = ({ item }) => <Item post={item} />;
     return (
       <View>
         <View style={styles.fixedHeader}>
           <Text>Timeline</Text>
-          <Pressable><IconFA name="plus" size={16} color="black" onPress={addPost}/></Pressable>
+          <Pressable>
+            <IconFA name="plus" size={16} color="black" onPress={addPost} />
+          </Pressable>
         </View>
         <FlatList
-          data={postData}
+          data={this.state.posts}
           renderItem={renderItem}
           keyExtractor={(item) => item.id}
+          onEndReached={this.flipPage} 
+          onEndReachedThreshold={0.5}
         />
       </View>
     );
