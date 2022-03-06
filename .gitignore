@@ -53,3 +53,7 @@ buck-out/
 .expo/
 web-build/
 dist/
+.requires-port-grj9aLb9
+.gitignore
+.gitattributes
+.buckconfig
