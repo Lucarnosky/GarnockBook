@@ -1,0 +1,10 @@
+{
+  "expo": {
+    "name": "GarnockBook",
+    "slug": "GarnockBook",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
