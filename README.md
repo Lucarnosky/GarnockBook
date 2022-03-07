@@ -13,11 +13,11 @@ I'm also working a full time job, so have mercy if I'm slow with it
 
 ## Implementation Plan
 
-:heavy_check_mark: Create NodeJs Server, watch [this repository](https://github.com/Lucarnosky/node_backend)
-:heavy_check_mark: Create users, post, likes and comment table
-:heavy_check_mark: Create routes and controller for microservices
-:heavy_check_mark: Make the app work with the NodeJs Server
-:heavy_check_mark: Create timeline handling
+- :heavy_check_mark: Create NodeJs Server, watch [this repository](https://github.com/Lucarnosky/node_backend)
+- :heavy_check_mark: Create users, post, likes and comment table
+- :heavy_check_mark: Create routes and controller for microservices
+- :heavy_check_mark: Make the app work with the NodeJs Server
+- :heavy_check_mark: Create timeline handling
 - [ ] Add possibility to add a post
 - [ ] Like / Unlike
 - [ ] Comments
