@@ -2,6 +2,7 @@ import * as React from "react";
 import { Text, View, StyleSheet, FlatList, Image } from "react-native";
 import IconFA from "react-native-vector-icons/FontAwesome";
 import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
+import Moment from 'moment';
 
 const Item = ({ post }) => (
   <View style={styles.post}>
@@ -9,7 +10,7 @@ const Item = ({ post }) => (
       <Image
         style={styles.img}
         source={{
-          uri: post.url,
+          uri: post.image,
         }}
       />
     </View>
@@ -17,8 +18,8 @@ const Item = ({ post }) => (
       <Text>
         {post.firstName ? post.firstName: "John"} {post.lastName ? post.lastName: "Doe"}
       </Text>
-      <Text>{post.insertedOn? post.insertedOn : "unkown"} </Text>
-      <Text>{post.title}</Text>
+      <Text>{post.postedOn? Moment(post.postedOn).format('D MMM y H:m') : "never"} </Text>
+      <Text>{post.content}</Text>
       <View style={styles.postFooter}>
         <IconFA
           name="heart"
@@ -56,13 +57,13 @@ export class HomeScreen extends React.Component {
 
   getPost = async () => {
     var apiUrl =
-      "https://jsonplaceholder.typicode.com/photos?_limit=10&_page=" +
-      this.state.page;
+      "https://jsonplaceholder.typicode.com/photos?_limit=10&_page=" +this.state.page;
+    var apiUrl = "https://garnockbook.herokuapp.com/timeline/2022-03-08 14:00:00/"+this.state.page;
     fetch(apiUrl)
       .then((response) => response.json())
       .then((jsonResponse) => {
         this.setState({
-          posts: this.state.posts.concat(jsonResponse),
+          posts: this.state.posts.concat(jsonResponse.results),
         });
       });
   };
@@ -89,7 +90,7 @@ export class HomeScreen extends React.Component {
         <FlatList
           data={this.state.posts}
           renderItem={renderItem}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => item.postId}
           onEndReached={this.flipPage} 
           onEndReachedThreshold={0.5}
         />
